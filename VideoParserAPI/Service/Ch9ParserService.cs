@@ -1,31 +1,38 @@
-﻿using Microsoft.SyndicationFeed;
-using Microsoft.SyndicationFeed.Rss;
-using System.Xml;
-
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using VideoParserAPI.Model;
 
 namespace VideoParserAPI.Service
 {
-    public class Ch9ParserService : BaseParserService
+    public class Ch9ParserService : RokuFeedParserService
     {
-        public async override void ParseFeed()
+       
+        public Ch9ParserService(string _feedURL) : base(_feedURL)
         {
-            string filePath = "https://s.ch9.ms/Feeds/RSS";
-
-            using (XmlReader xmlReader = XmlReader.Create(filePath, new XmlReaderSettings() { Async = true }))
-            {
-                var reader = new RssFeedReader(xmlReader);
-                while (await reader.Read())
-                {
-                    switch (reader.ElementType)
-                    {
-                        case SyndicationElementType.Item:
-                            ISyndicationItem item = await reader.ReadItem();
-
-                            break;
-
-                    }
-                }
-            }
+           
         }
+
+        public async override Task<RokuFeedParserModel> ParseContent()
+        {
+            var parserModel = await base.ParseContent();
+            parserModel.ParserItems = new List<RokuParserItem>();
+            int currIndex = 0;
+            foreach(var syndicationItem in parserModel.SyndicationItems)
+            {
+                RokuParserItem parserItem = new RokuParserItem();
+                parserItem.Title = syndicationItem.Title;
+                parserItem.ContentId = currIndex;
+                parserItem.StreamFormat = "mp4";
+                parserItem.MediaItem = new RokuMediaItem();
+                parserItem.MediaItem.StreamUrl = syndicationItem.Links.FirstOrDefault(i => i.RelationshipType == "enclosure")?.Uri.ToString();
+                parserModel.ParserItems.Add(parserItem);
+                currIndex++;
+            }
+            parserModel.ResultLength = currIndex;
+            parserModel.EndIndex = currIndex;
+            return parserModel;
+        }
+
     }
 }

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.SyndicationFeed;
+using System.Runtime.Serialization;
 
 namespace VideoParserAPI.Model
 {
-    public class BaseParserModel
+    public class BaseParserModel : IParserModel
     {
-        public string Title { get; set; }
-        public string ImageURL { get; set; }
-        public string ContentURL { get; set; }
-        public string Category { get; set; }
-
+        [IgnoreDataMember]
+        public string RawContent { get; set; }
     }
 }

@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.SyndicationFeed;
+using Microsoft.SyndicationFeed.Rss;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Xml;
+using VideoParserAPI.Model;
 
 namespace VideoParserAPI.Service
 {
-    interface IParserService
+    public abstract class BaseParserService<T> : IParserService<T> where T : IParserModel, new()
     {
-        void ParseFeed();
-    }
+        public BaseParserService()
+        {
 
-    public abstract class BaseParserService : IParserService
-    {
-        public abstract void ParseFeed();
+        }
+
+        public async virtual Task<T> ParseContent()
+        {
+            return await Task.FromResult(new T());
+        }
     }
 }

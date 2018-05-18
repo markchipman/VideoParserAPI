@@ -30,7 +30,7 @@ namespace Channel9FeedAPI
                 options.RespectBrowserAcceptHeader = true;                
             })
             //support application/xml
-            .AddXmlDataContractSerializerFormatters()
+            .AddXmlSerializerFormatters()
             //support application/json
             .AddJsonOptions(options =>
             {

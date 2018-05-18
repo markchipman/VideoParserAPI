@@ -14,8 +14,8 @@ namespace VideoParserAPI.Controllers
         public RokuFeedParserModel GetRokuFormat()
         {           
             var parserService = new Ch9ParserService("https://s.ch9.ms/Feeds/RSS");
-            return new RokuFeedParserModel() { ResultLength = 100 };
-            //parserService.ParseContent().Result;   
+            //return new RokuFeedParserModel() { ResultLength = 100 };
+            return parserService.ParseContent().Result;   
         }
     }
 }

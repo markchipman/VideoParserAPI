@@ -5,10 +5,10 @@ using VideoParserAPI.Model;
 
 namespace VideoParserAPI.Service
 {
-    public class Ch9ParserService : RokuFeedParserService
+    public class Ch9RokuParserService : RokuFeedParserService
     {
        
-        public Ch9ParserService(string _feedURL) : base(_feedURL)
+        public Ch9RokuParserService(string _feedURL) : base(_feedURL)
         {
            
         }

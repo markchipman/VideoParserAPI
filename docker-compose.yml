@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  videoparserapi:
+    image: ${DOCKER_REGISTRY}videoparserapi
+    build:
+      context: .
+      dockerfile: VideoParserAPI\Dockerfile
